@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/GetSHIM/.github/blob/main/SECURITY.md
+    about: Do not open a public issue. Report privately through a security advisory.
+  - name: Questions and usage help
+    url: https://getshim.tech
+    about: Setup questions, commercial questions, anything not a defect.

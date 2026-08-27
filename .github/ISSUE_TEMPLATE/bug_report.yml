@@ -1,0 +1,48 @@
+name: Bug report
+description: Something behaves differently from what the docs say.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before you paste anything: our tools sit next to prompts and logs that
+        may contain real data. Replace anything real with a synthetic value
+        first. `alice@example.com` reproduces a bug just as well as a customer's
+        address, and it does not end up in a public issue.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you saw, and what the documentation led you to expect instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Commands, in order. Use synthetic values.
+      render: console
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of the tool's version command, plus the client and version if one is involved.
+      placeholder: "shim-guard 0.1.3, Claude Code 2.x"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "macOS 15.5 arm64, Python 3.13.2, installed with uv"
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Logs with secrets and personal data removed, screenshots, related issues.
+    validations:
+      required: false

@@ -1,0 +1,37 @@
+name: Feature request
+description: Propose something the tool should do and does not.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do, and where does it break down today? Describe the situation, not the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like it to do
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you tried instead
+      description: Workarounds, other tools, why they were not enough.
+    validations:
+      required: false
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: Trust boundary
+      description: >
+        Some things change what the software is allowed to touch. If your
+        request involves one of these, tick it so we discuss the design before
+        anyone writes code.
+      options:
+        - label: It needs a network call, telemetry, persistent state, or a self-updater
+          required: false
+        - label: It adds support for a new client or provider
+          required: false
