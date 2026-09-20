@@ -28,7 +28,7 @@ Two of those pieces are open source. They sit at different points in the path.
 
 ```mermaid
 flowchart LR
-  D["a developer's<br/>coding agent"] --> G{"shim Guard<br/>on the laptop"}
+  D["a developer's<br/>coding agent"] --> G{"shim-cli<br/>on the laptop"}
   A["your application"] --> S{"shim<br/>the gateway"}
   G --> M["the model"]
   S --> M
@@ -37,8 +37,8 @@ flowchart LR
 ## shim
 
 The gateway. It sits between your application and OpenAI, Anthropic or Gemini,
-applies privacy, quota, spend and admission policy to every request, and keeps
-the record of what was decided. It does not translate your payload into a
+and applies privacy, quota, spend and admission policy to every request. It does
+not translate your payload into a
 shared format, so a provider's new field or model works the day it ships.
 
 Self-hosted, Python 3.13, and the community gateway needs no database. Install
@@ -50,35 +50,46 @@ than discovered later.
 
 **[GetSHIM/shim](https://github.com/GetSHIM/shim)**
 
-## shim Guard
+## shim-cli
 
-A pre-submit hook for coding agents. It reads the prompt on your machine and
-replaces detected values with typed placeholders like `<EMAIL_1>` — email
-addresses, phone numbers, credit cards, IBANs, IP and MAC addresses, US SSNs,
-Turkish national and tax IDs, secrets, and database URIs.
+The same idea one step earlier, on a developer's own laptop. Two commands,
+two different questions:
 
-No account, no API key, no network call, no daemon, no telemetry, no prompt
-history. Nothing to sign up for.
+| Command | Answers |
+| --- | --- |
+| `shim watch -- claude` | What did this session actually send, and what did it cost? |
+| `shim install claude` | Mask secrets and personal data in eligible tool results, every session. |
+
+`shim watch` runs a loopback proxy for the length of one command and changes
+nothing on the way through. It reports where the input tokens went and which
+sensitive values were in them. Claude Code only for now.
+
+The hook replaces detected values with typed placeholders like `<EMAIL_1>`:
+email addresses, phone numbers, credit cards, IBANs, IP and MAC addresses, US
+SSNs, Turkish national and tax IDs, secrets, and database URIs. The hook and the
+detector run locally with no account, API key, daemon, telemetry or prompt
+history. `shim watch` forwards only to the provider your client already uses.
 
 ```console
-uv tool install --compile-bytecode shim-guard
-shim install claude    # or codex, or copilot
+uv tool install --python 3.12 --compile-bytecode shim
+shim install claude      # or codex, or copilot
+shim watch -- claude
 ```
 
-| Client | What happens when a value is detected |
-| --- | --- |
-| Codex CLI | Submission blocked, private redacted file written to resubmit |
-| Claude Code | Submission blocked, private redacted file written to resubmit |
-| GitHub Copilot CLI | Model-facing prompt replaced with the redacted text |
+| Client | Your typed prompt | Tool input and results |
+| --- | --- | --- |
+| Claude Code | Reported and let through; blocked under `enforce` | Eligible arguments and results masked |
+| Codex CLI | Reported and let through; blocked under `enforce` | Not covered yet |
+| GitHub Copilot CLI | Model-facing prompt replaced with the redacted text | Not covered yet |
 
 > [!WARNING]
-> Alpha, and a best-effort guard rather than a data-loss prevention boundary.
-> Your client reads the raw prompt before our hook runs, detection can miss
-> things, and a crashed or timed-out hook may fail open depending on the client.
-> The limits are written down — [read them](https://github.com/GetSHIM/shim-guard/blob/main/docs/privacy.md)
+> A best-effort guard, not a data-loss prevention boundary. Your client reads
+> the raw prompt before the hook runs, detection can miss things, and a crashed
+> or timed-out hook may fail open depending on the client. The limits are
+> written down, so [read them](https://github.com/GetSHIM/shim-cli/blob/main/docs/privacy.md)
 > before pointing this at anything sensitive.
 
-**[GetSHIM/shim-guard](https://github.com/GetSHIM/shim-guard)** &nbsp;·&nbsp; [PyPI](https://pypi.org/project/shim-guard/) &nbsp;·&nbsp; Apache-2.0
+**[GetSHIM/shim-cli](https://github.com/GetSHIM/shim-cli)** &nbsp;·&nbsp; [PyPI](https://pypi.org/project/shim/) &nbsp;·&nbsp; Apache-2.0
 
 <details>
 <summary>What is not here</summary>
@@ -93,4 +104,4 @@ page implying otherwise. When something opens, it opens in this organization.
 
 ---
 
-<sub>Istanbul · <a href="https://getshim.tech">getshim.tech</a> · Security reports: private advisory on <a href="https://github.com/GetSHIM/shim/security/advisories/new">shim</a> or <a href="https://github.com/GetSHIM/shim-guard/security/advisories/new">shim Guard</a></sub>
+<sub>Istanbul · <a href="https://getshim.tech">getshim.tech</a> · Security reports: private advisory on <a href="https://github.com/GetSHIM/shim/security/advisories/new">shim</a> or <a href="https://github.com/GetSHIM/shim-cli/security/advisories/new">shim-cli</a></sub>
