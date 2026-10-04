@@ -13,6 +13,8 @@
   <a href="https://getshim.tech">getshim.tech</a>
   &nbsp;·&nbsp;
   <a href="https://www.linkedin.com/company/getshim">LinkedIn</a>
+  &nbsp;·&nbsp;
+  <a href="https://x.com/getshimtech">X</a>
 </p>
 
 ---
